@@ -1,0 +1,91 @@
+import { en } from './en';
+
+export const mni: typeof en = {
+  ...en,
+  app: {
+    ...en.app,
+    name: 'NER CognitiveCare',
+    tagline: 'নিংশিংবা খুদিংমক কান্নবা ওইহনসি।',
+    demoMode: 'Clinical Demo',
+    online: 'Online',
+    offline: 'Offline Mode Active',
+    rolePatient: 'Patient Mode',
+    roleCaregiver: 'Caregiver Portal',
+    roleHealthcare: 'Healthcare Specialist',
+  },
+  nav: {
+    ...en.nav,
+    home: 'Home (য়ুম)',
+    play: 'Play (শানবা)',
+    today: 'My Day (ঙসিগী থবক)',
+    reminders: 'Reminders (নিংশিংবা)',
+    progress: 'Progress',
+    memories: 'Memories (নিংশিংখিবশিং)',
+    settings: 'Settings',
+    talk: 'Voice Help',
+  },
+  patient: {
+    ...en.patient,
+    greetingMorning: 'Khurumjari (সুপ্ৰভাত)',
+    greetingAfternoon: 'Khurumjari',
+    greetingEvening: 'Khurumjari (নুমিদাংফম)',
+    calmMessage: 'ঙসিগী নুমিৎ অসি তপ্না তেন্না হৌদোকসি।',
+    morningMedicine: 'অয়ুক্কী হিদাক',
+    takenButton: 'হিদাক চারে',
+    hydrationTitle: 'ঈশিং থকপা',
+    drinkWater: 'ঈশিং থক্লে',
+    todayActivity: 'ঙসিগী শানবা',
+    memoryGarden: 'Memory Garden',
+    startActivity: 'হৌদোকউ',
+  },
+  games: {
+    ...en.games,
+    hubTitle: 'Cognitive Games (ৱাখলগী শানবা)',
+    startPlaying: 'শানসি',
+    playAgain: 'অমুক হন্না শানবা',
+  }
+};
+
+export const kha: typeof en = {
+  ...en,
+  app: {
+    ...en.app,
+    name: 'NER CognitiveCare',
+    tagline: 'Pynsah ia ki kynmaw ba kordor.',
+    demoMode: 'Clinical Demo',
+    online: 'Online',
+    offline: 'Offline Mode Active',
+    rolePatient: 'Elderly Patient',
+    roleCaregiver: 'Caregiver Portal',
+    roleHealthcare: 'Healthcare Portal',
+  },
+  nav: {
+    ...en.nav,
+    home: 'Ing',
+    play: 'Lehkai',
+    today: 'Ka Sngi Jong Nga',
+    reminders: 'Ki Jingpyrkhat',
+    progress: 'Ka Jingiit',
+    memories: 'Ki Jingkynmaw',
+    settings: 'Settings',
+    talk: 'Kren',
+  },
+  patient: {
+    ...en.patient,
+    greetingMorning: 'Khublei Step',
+    greetingAfternoon: 'Khublei Janmiet',
+    greetingEvening: 'Khublei Mied',
+    calmMessage: 'To ngin sdang ia kane ka sngi suk suk.',
+    morningMedicine: 'Dawai Step',
+    takenButton: 'Nga la dih dawai',
+    hydrationTitle: 'Dih Um',
+    drinkWater: 'Dih Um',
+    todayActivity: 'Ka Kam Mynta ka Sngi',
+    startActivity: 'Sdang',
+  },
+  games: {
+    ...en.games,
+    hubTitle: 'Ki Jinghikai Jingmut (Games)',
+    startPlaying: 'Lehkai',
+  }
+};

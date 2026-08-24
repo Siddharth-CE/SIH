@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.ts linguist-detectable=true
+*.tsx linguist-detectable=true
+*.py linguist-detectable=true
+*.css linguist-detectable=true
+*.html linguist-detectable=true
+package-lock.json linguist-generated=true
