@@ -1,8 +1,20 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+
+const BG_IMAGE_URL =
+  'https://images.unsplash.com/photo-1667832273606-c4a9e46c7d1a?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8M2QlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww';
 
 export const ThreeBackground: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
+  const parallaxRef = useRef<HTMLDivElement>(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  // Preload background image
+  useEffect(() => {
+    const img = new Image();
+    img.src = BG_IMAGE_URL;
+    img.onload = () => setImageLoaded(true);
+  }, []);
 
   useEffect(() => {
     const currentMount = mountRef.current;
@@ -10,9 +22,8 @@ export const ThreeBackground: React.FC = () => {
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Scene & Camera setup
+    // Setup Three.js WebGL Overlay for Floating Synaptic Depth
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x0c3027, 0.003);
 
     const camera = new THREE.PerspectiveCamera(
       55,
@@ -29,18 +40,17 @@ export const ThreeBackground: React.FC = () => {
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x0b2d24, 1);
+    renderer.setClearColor(0x000000, 0); // Pure transparent so moving 3D image shines through
     currentMount.appendChild(renderer.domElement);
 
     // =========================================================================
-    // 1. NEURAL COGNITIVE SYNAPSE NETWORK (Subtle memory nodes & connection lines)
+    // 1. NEURAL COGNITIVE SYNAPSE NODES & FILAMENTS OVERLAY
     // =========================================================================
-    const nodeCount = 75;
-    const maxConnectionDistance = 38;
+    const nodeCount = 55;
+    const maxConnectionDistance = 34;
     const nodePositions: THREE.Vector3[] = [];
     const nodeVelocities: THREE.Vector3[] = [];
 
-    // Node geometry & colors (Warm Amber, Emerald Mint & Azure memory nodes)
     const nodeGeometry = new THREE.BufferGeometry();
     const posArray = new Float32Array(nodeCount * 3);
     const colorArray = new Float32Array(nodeCount * 3);
@@ -52,13 +62,13 @@ export const ThreeBackground: React.FC = () => {
     for (let i = 0; i < nodeCount; i++) {
       const x = (Math.random() - 0.5) * 160;
       const y = (Math.random() - 0.5) * 110;
-      const z = (Math.random() - 0.5) * 80;
+      const z = (Math.random() - 0.5) * 70;
 
       nodePositions.push(new THREE.Vector3(x, y, z));
       nodeVelocities.push(
         new THREE.Vector3(
-          (Math.random() - 0.5) * 0.04,
-          (Math.random() - 0.5) * 0.03,
+          (Math.random() - 0.5) * 0.035,
+          (Math.random() - 0.5) * 0.025,
           (Math.random() - 0.5) * 0.02
         )
       );
@@ -93,10 +103,10 @@ export const ThreeBackground: React.FC = () => {
     const nodeTexture = new THREE.CanvasTexture(nodeCanvas);
 
     const nodeMaterial = new THREE.PointsMaterial({
-      size: 4.5,
+      size: 4.2,
       map: nodeTexture,
       transparent: true,
-      opacity: 0.75,
+      opacity: 0.65,
       vertexColors: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
@@ -116,7 +126,7 @@ export const ThreeBackground: React.FC = () => {
     const lineMaterial = new THREE.LineBasicMaterial({
       vertexColors: true,
       transparent: true,
-      opacity: 0.25,
+      opacity: 0.22,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -125,21 +135,21 @@ export const ThreeBackground: React.FC = () => {
     scene.add(lines);
 
     // =========================================================================
-    // 2. GENTLE FLOATING NORTHEAST TEA PETALS / BOTANICAL LEAVES
+    // 2. GENTLE FLOATING BOTANICAL / GLOWING MEMORY SPORES
     // =========================================================================
-    const petalCount = 35;
+    const petalCount = 28;
     const petalGeometry = new THREE.BufferGeometry();
     const petalPositions = new Float32Array(petalCount * 3);
     const petalColors = new Float32Array(petalCount * 3);
     const petalVelocities: THREE.Vector3[] = [];
 
-    const teaLeafColor = new THREE.Color(0x34d399); // Assam tea garden green
-    const orchidColor = new THREE.Color(0xf472b6); // Kopou orchid blossom pink
+    const teaLeafColor = new THREE.Color(0x34d399); // Mint teal
+    const orchidColor = new THREE.Color(0xf472b6); // Blossom orchid
 
     for (let i = 0; i < petalCount; i++) {
       petalPositions[i * 3] = (Math.random() - 0.5) * 170;
       petalPositions[i * 3 + 1] = Math.random() * 120 - 60;
-      petalPositions[i * 3 + 2] = (Math.random() - 0.5) * 90;
+      petalPositions[i * 3 + 2] = (Math.random() - 0.5) * 80;
 
       const pCol = i % 5 === 0 ? orchidColor : teaLeafColor;
       petalColors[i * 3] = pCol.r;
@@ -148,9 +158,9 @@ export const ThreeBackground: React.FC = () => {
 
       petalVelocities.push(
         new THREE.Vector3(
-          (Math.random() - 0.5) * 0.03,
-          -0.03 - Math.random() * 0.04, // Gentle downward drift
-          (Math.random() - 0.5) * 0.02
+          (Math.random() - 0.5) * 0.025,
+          -0.02 - Math.random() * 0.03, // Gentle downward drift
+          (Math.random() - 0.5) * 0.015
         )
       );
     }
@@ -159,10 +169,10 @@ export const ThreeBackground: React.FC = () => {
     petalGeometry.setAttribute('color', new THREE.BufferAttribute(petalColors, 3));
 
     const petalMaterial = new THREE.PointsMaterial({
-      size: 3.8,
+      size: 3.5,
       map: nodeTexture,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.4,
       vertexColors: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
@@ -176,12 +186,16 @@ export const ThreeBackground: React.FC = () => {
     // =========================================================================
     let mouseX = 0;
     let mouseY = 0;
-    let targetCameraX = 0;
-    let targetCameraY = 0;
+    let targetParallaxX = 0;
+    let targetParallaxY = 0;
+    let currentParallaxX = 0;
+    let currentParallaxY = 0;
 
     const onMouseMove = (e: MouseEvent) => {
       mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
       mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+      targetParallaxX = mouseX * 18; // Parallax shift amplitude
+      targetParallaxY = mouseY * 14;
     };
     window.addEventListener('mousemove', onMouseMove, { passive: true });
 
@@ -201,11 +215,17 @@ export const ThreeBackground: React.FC = () => {
 
       const time = clock.getElapsedTime();
 
-      // Gentle camera parallax
-      targetCameraX += (mouseX * 8 - targetCameraX) * 0.03;
-      targetCameraY += (-mouseY * 6 - targetCameraY) * 0.03;
-      camera.position.x = targetCameraX;
-      camera.position.y = targetCameraY;
+      // Smooth DOM parallax interpolation for the 3D moving background image
+      currentParallaxX += (targetParallaxX - currentParallaxX) * 0.05;
+      currentParallaxY += (targetParallaxY - currentParallaxY) * 0.05;
+
+      if (parallaxRef.current && !prefersReducedMotion) {
+        parallaxRef.current.style.transform = `translate3d(${currentParallaxX}px, ${currentParallaxY}px, 0) rotateX(${-currentParallaxY * 0.25}deg) rotateY(${currentParallaxX * 0.25}deg)`;
+      }
+
+      // Three.js camera parallax
+      camera.position.x = currentParallaxX * 0.4;
+      camera.position.y = -currentParallaxY * 0.3;
       camera.lookAt(0, 0, 0);
 
       if (!prefersReducedMotion) {
@@ -219,23 +239,21 @@ export const ThreeBackground: React.FC = () => {
 
           pos.add(vel);
 
-          // Boundary bounds bounce
+          // Boundary bounce
           if (pos.x < -80 || pos.x > 80) vel.x = -vel.x;
           if (pos.y < -55 || pos.y > 55) vel.y = -vel.y;
-          if (pos.z < -40 || pos.z > 40) vel.z = -vel.z;
+          if (pos.z < -35 || pos.z > 35) vel.z = -vel.z;
 
-          // Subtle organic wave float
-          const floatY = pos.y + Math.sin(time * 0.8 + i * 0.5) * 0.04;
-
+          const floatY = pos.y + Math.sin(time * 0.8 + i * 0.5) * 0.035;
           posAttr.setXYZ(i, pos.x, floatY, pos.z);
 
-          // Connect Synapse lines to neighboring nodes
+          // Connect filaments
           for (let j = i + 1; j < nodeCount; j++) {
             const pos2 = nodePositions[j];
             const dist = pos.distanceTo(pos2);
 
             if (dist < maxConnectionDistance) {
-              const alpha = (1 - dist / maxConnectionDistance) * 0.55;
+              const alpha = (1 - dist / maxConnectionDistance) * 0.48;
 
               const idx = lineVertexCount * 3;
               linePositions[idx] = pos.x;
@@ -246,7 +264,6 @@ export const ThreeBackground: React.FC = () => {
               linePositions[idx + 4] = pos2.y;
               linePositions[idx + 5] = pos2.z;
 
-              // Amber-emerald blend
               lineColors[idx] = 0.2;
               lineColors[idx + 1] = 0.8 * alpha;
               lineColors[idx + 2] = 0.6 * alpha;
@@ -268,7 +285,7 @@ export const ThreeBackground: React.FC = () => {
         lPosAttr.needsUpdate = true;
         lColAttr.needsUpdate = true;
 
-        // Update Botanical Floating Petals
+        // Update Drifting Botanical Spores
         const petalPosAttr = petalGeometry.attributes.position as THREE.BufferAttribute;
         for (let i = 0; i < petalCount; i++) {
           let px = petalPositions[i * 3];
@@ -277,9 +294,8 @@ export const ThreeBackground: React.FC = () => {
 
           const vel = petalVelocities[i];
           py += vel.y;
-          px += vel.x + Math.sin(time * 0.6 + i) * 0.03;
+          px += vel.x + Math.sin(time * 0.6 + i) * 0.025;
 
-          // Reset if below view
           if (py < -60) {
             py = 60;
             px = (Math.random() - 0.5) * 170;
@@ -321,13 +337,60 @@ export const ThreeBackground: React.FC = () => {
 
   return (
     <div
-      ref={mountRef}
-      className="fixed inset-0 pointer-events-none -z-20 overflow-hidden"
-      style={{
-        background:
-          'radial-gradient(ellipse at 50% 30%, #114237 0%, #0c332a 50%, #08241e 100%)',
-      }}
+      className="fixed inset-0 pointer-events-none -z-20 overflow-hidden bg-[#071d18]"
       aria-hidden="true"
-    />
+    >
+      {/* 3D Moving Image Stage with Perspective */}
+      <div
+        ref={parallaxRef}
+        className="absolute -inset-16 w-[calc(100%+8rem)] h-[calc(100%+8rem)] transition-transform duration-75 ease-out will-change-transform"
+        style={{ perspective: 1200 }}
+      >
+        {/* Layer 1: Primary Moving 3D Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center animate-bg-fluid"
+          style={{
+            backgroundImage: `url(${BG_IMAGE_URL})`,
+            filter: 'saturate(1.25) contrast(1.15) brightness(0.82)',
+            transformOrigin: 'center center',
+          }}
+        />
+
+        {/* Layer 2: Counter-flowing 3D Organic Wave Shimmer */}
+        <div
+          className="absolute inset-0 bg-cover bg-center mix-blend-overlay animate-bg-wave-counterflow"
+          style={{
+            backgroundImage: `url(${BG_IMAGE_URL})`,
+            filter: 'hue-rotate(25deg) saturate(1.4) brightness(0.9)',
+            transformOrigin: 'center center',
+          }}
+        />
+
+        {/* Layer 3: Dynamic Caustic Light Sweep across 3D Ridges */}
+        <div
+          className="absolute -inset-1/2 w-[200%] h-[200%] pointer-events-none mix-blend-color-dodge animate-bg-shimmer"
+          style={{
+            background:
+              'radial-gradient(ellipse 65% 45% at 50% 50%, rgba(52, 211, 153, 0.45) 0%, rgba(245, 158, 11, 0.25) 35%, rgba(6, 78, 59, 0) 70%)',
+          }}
+        />
+      </div>
+
+      {/* Layer 4: Ambient Atmosphere & Vignette for Contrast & Readability */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(ellipse at 50% 40%, rgba(12, 53, 44, 0.45) 0%, rgba(8, 36, 30, 0.78) 60%, rgba(4, 18, 15, 0.94) 100%)',
+        }}
+      />
+
+      {/* Layer 5: Three.js Interactive Floating Synapses & Memory Spores */}
+      <div
+        ref={mountRef}
+        className="absolute inset-0 pointer-events-none"
+        style={{ opacity: imageLoaded ? 1 : 0.6, transition: 'opacity 1s ease-in' }}
+      />
+    </div>
   );
 };

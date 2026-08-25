@@ -167,3 +167,86 @@
 .animate-voice-ripple {
   animation: voice-ripple 2s infinite ease-in-out;
 }
+
+/* =========================================================================
+   DYNAMIC 3D MOVING BACKGROUND ANIMATIONS
+   ========================================================================= */
+@keyframes bg-fluid-undulate {
+  0% {
+    transform: scale(1.08) translate3d(0%, 0%, 0) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.15) translate3d(-2.5%, -1.5%, 0) rotate(0.8deg);
+  }
+  50% {
+    transform: scale(1.12) translate3d(1.8%, -3.2%, 0) rotate(-0.6deg);
+  }
+  75% {
+    transform: scale(1.16) translate3d(-1.5%, 2.2%, 0) rotate(0.5deg);
+  }
+  100% {
+    transform: scale(1.08) translate3d(0%, 0%, 0) rotate(0deg);
+  }
+}
+
+@keyframes bg-wave-counterflow {
+  0% {
+    transform: scale(1.16) translate3d(2%, 2%, 0) rotate(-0.5deg);
+    opacity: 0.35;
+  }
+  33% {
+    transform: scale(1.10) translate3d(-3%, 1%, 0) rotate(0.8deg);
+    opacity: 0.55;
+  }
+  66% {
+    transform: scale(1.18) translate3d(1.5%, -2.5%, 0) rotate(-0.9deg);
+    opacity: 0.38;
+  }
+  100% {
+    transform: scale(1.16) translate3d(2%, 2%, 0) rotate(-0.5deg);
+    opacity: 0.35;
+  }
+}
+
+@keyframes bg-shimmer-sweep {
+  0% {
+    transform: translate3d(-40%, -40%, 0) rotate(25deg);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translate3d(30%, 30%, 0) rotate(35deg);
+    opacity: 0.45;
+  }
+  100% {
+    transform: translate3d(-40%, -40%, 0) rotate(25deg);
+    opacity: 0.15;
+  }
+}
+
+@keyframes bg-ambient-pulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-bg-fluid {
+  animation: bg-fluid-undulate 26s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-bg-wave-counterflow {
+  animation: bg-wave-counterflow 34s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-bg-shimmer {
+  animation: bg-shimmer-sweep 18s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-bg-pulse {
+  animation: bg-ambient-pulse 10s ease-in-out infinite;
+}
